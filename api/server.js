@@ -2,9 +2,10 @@
 const jsonServer = require('json-server')
 const server = jsonServer.create()
 const router = jsonServer.router('db.json')
-const middlewares = jsonServer.defaults({
-  static: 'node_modules/json-server/public'
-})
+const middlewares = jsonServer.defaults()
+
+
+
 
 // Habilitar CORS
 server.use((req, res, next) => {
@@ -20,7 +21,7 @@ server.use((req, res, next) => {
 })
 
 server.use(middlewares)
-
+// Add this before server.use(router)
 // Configuración de rutas
 server.use(jsonServer.rewriter({
   '/api/projects': '/projects',
@@ -29,8 +30,13 @@ server.use(jsonServer.rewriter({
   '/api/tasks/:id': '/tasks/:id'
 }))
 
+
+
 server.use('/api', router)
 
+server.listen(3000, () => {
+    console.log('JSON Server is running')
+})
 // Manejar rutas no encontradas
 server.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' })
