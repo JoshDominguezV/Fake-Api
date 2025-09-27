@@ -24,3 +24,29 @@
     "tailwindcss": "^4"
   }
 }
+{
+  "name": "Fake-Api",
+  "version": "1.0.0",
+  "description": "Fake api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:JoshDominguezV/Fake-Api.git"
+  },
+  "keywords": [
+    "json-server",
+    "javascript",
+    "API"
+  ],
+
+  "license": "MIT",
+
+  "dependencies": {
+    "cors": "^2.8.5",
+    "json-serve": "^0.1.0",
+    "json-server": "^0.17.3"
+  }
+}
