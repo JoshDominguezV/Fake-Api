@@ -1,45 +1,44 @@
-// See https://github.com/typicode/json-server#module
 const jsonServer = require('json-server')
 const server = jsonServer.create()
-const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 
+// Datos iniciales en lugar de un archivo
+const initialData = {
+  projects: [
+    { id: 1, name: "Proyecto 1", description: "Descripción del proyecto 1" }
+  ],
+  tasks: [
+    { id: 1, projectId: 1, title: "Tarea 1", completed: false }
+  ]
+}
 
-
+// Crear router con datos en memoria
+const router = jsonServer.router(initialData)
 
 // Habilitar CORS
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-  
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200)
-  } else {
-    next()
-  }
+  next()
 })
 
 server.use(middlewares)
-// Add this before server.use(router)
-// Configuración de rutas
+
+// Usar el rewriter
 server.use(jsonServer.rewriter({
-  '/api/projects': '/projects',
-  '/api/projects/:id': '/projects/:id',
-  '/api/tasks': '/tasks',
-  '/api/tasks/:id': '/tasks/:id'
+  '/api/*': '/$1'
 }))
-
-
 
 server.use('/api', router)
 
-server.listen(3000, () => {
-    console.log('JSON Server is running')
+// Ruta de salud
+server.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'API is running' })
 })
-// Manejar rutas no encontradas
-server.use((req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' })
+
+server.get('/', (req, res) => {
+  res.json({ message: 'API funcionando correctamente' })
 })
 
 module.exports = server

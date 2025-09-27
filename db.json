@@ -22,6 +22,17 @@
       "active": true
     }
   ],
-  "projects": [],
+  "projects": [
+    {
+      "id": "f146",
+      "name": "fdbahd",
+      "description": "hdfhh",
+      "status": "active",
+      "members": [
+        2
+      ],
+      "createdAt": "2025-09-27"
+    }
+  ],
   "tasks": []
 }
