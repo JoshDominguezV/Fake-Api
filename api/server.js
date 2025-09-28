@@ -1,34 +1,27 @@
 const jsonServer = require("json-server");
 const server = jsonServer.create();
-
-
-const router = jsonServer.router({
-  users: [],
-  projects: [],
-  tasks: []
-});
-
+const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
-
-// Rewriter para tener rutas /api/...
+// Add this before server.use(router)
 server.use(
   jsonServer.rewriter({
     "/api/projects": "/projects",
     "/api/projects/:id": "/projects/:id",
     "/api/tasks": "/tasks",
     "/api/tasks/:id": "/tasks/:id",
-    "/api/users": "/users",
-    "/api/users/:id": "/users/:id",
   })
 );
-
 server.use(router);
+const PORT = process.env.PORT || 3000;
 
-server.listen(3000, () => {
-  console.log("JSON Server is running with in-memory DB 🚀");
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`JSON Server is running on port ${PORT}`);
 });
 
-
+// Export the Server API
 module.exports = server;
+
+
+
