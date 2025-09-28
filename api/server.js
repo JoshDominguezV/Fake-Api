@@ -4,7 +4,8 @@ const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
-// Add this before server.use(router)
+
+// Rutas personalizadas
 server.use(
   jsonServer.rewriter({
     "/api/projects": "/projects",
@@ -13,15 +14,14 @@ server.use(
     "/api/tasks/:id": "/tasks/:id",
   })
 );
-server.use(router);
-const PORT = process.env.PORT || 3000;
 
+server.use(router);
+
+// Puerto dinámico de Render
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`JSON Server is running on port ${PORT}`);
 });
 
-// Export the Server API
+// Exportar para compatibilidad
 module.exports = server;
-
-
-
